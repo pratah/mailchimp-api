@@ -1,6 +1,6 @@
 # Mailchimp API Documentation
 
-This documentation describes the Mailchimp API endpoints and operations used in the shell script.
+This documentation describes the Mailchimp API endpoints and operations used for Access Request and Erasure Request.
 
 ## Table of Contents
 
@@ -427,7 +427,6 @@ curl -u "email:api_key" \
 
 ## Notes
 
-- All timestamps are in ISO 8601 format with timezone
 - Email addresses are case-insensitive for hashing purposes
 - The API uses RESTful conventions
 - Rate limits may apply (check Mailchimp documentation for current limits)
@@ -436,6 +435,5 @@ curl -u "email:api_key" \
 
 ---
 
-**Last Updated**: Generated from shell script analysis
 **API Version**: Mailchimp API 3.0
 
