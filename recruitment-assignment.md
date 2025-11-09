@@ -31,7 +31,7 @@ All API requests require HTTP Basic Authentication using:
 
 **Example**:
 ```bash
-curl -u "anystring@email.com:a3db2c5d5e5f64190d756e9889b5485b-us1"
+curl -u "anystring@email.com:<api_key>us1"
 ```
 
 ## Base URL
