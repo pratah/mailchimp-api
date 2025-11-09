@@ -31,7 +31,7 @@ All API requests require HTTP Basic Authentication using:
 
 **Example**:
 ```bash
-curl -u "hmorganprata@gmail.com:a3db2c5d5e5f64190d756e9889b5485b-us1"
+curl -u "anystring@email.com:a3db2c5d5e5f64190d756e9889b5485b-us1"
 ```
 
 ## Base URL
@@ -64,7 +64,7 @@ Check if the API is accessible and your credentials are valid.
 
 **Example Request**:
 ```bash
-curl -u "hmorganprata@gmail.com:${MC_API_KEY}" \
+curl -u "anystring@email.com:${MC_API_KEY}" \
   -X GET "https://us1.api.mailchimp.com/3.0/ping" | jq '.'
 ```
 
@@ -93,7 +93,7 @@ Retrieve the total count of members in a specific list.
 
 **Example Request**:
 ```bash
-curl -u "hmorganprata@gmail.com:${MC_API_KEY}" \
+curl -u "anystring@email.com:${MC_API_KEY}" \
   -G "https://us1.api.mailchimp.com/3.0/lists/866bf7f993/members" \
   --data-urlencode "fields=total_items"
 ```
@@ -120,14 +120,14 @@ Search for members across all lists using email, name, or other criteria.
 
 **Example Request - Search by Email**:
 ```bash
-curl -u "hmorganprata@gmail.com:${MC_API_KEY}" \
+curl -u "anystring@email.com:${MC_API_KEY}" \
   -G "https://us1.api.mailchimp.com/3.0/search-members" \
   --data-urlencode "query=john.smith@gmail.com" | jq '.'
 ```
 
 **Example Request - Search by First Name**:
 ```bash
-curl -u "hmorganprata@gmail.com:${MC_API_KEY}" \
+curl -u "anystring@email.com:${MC_API_KEY}" \
   -G "https://us1.api.mailchimp.com/3.0/search-members" \
   --data-urlencode "query=Maria" | jq '.'
 ```
@@ -179,7 +179,7 @@ Retrieve specific member information using the subscriber hash.
 
 **Example Request**:
 ```bash
-curl -u "hmorganprata@gmail.com:${MC_API_KEY}" \
+curl -u "anystring@email.com:${MC_API_KEY}" \
   -G "https://us1.api.mailchimp.com/3.0/lists/866bf7f993/members/${SUBSCRIBER_HASH}" | jq '.'
 ```
 
@@ -261,7 +261,7 @@ Permanently delete a member from a list. **This action is irreversible.**
 **Example Request**:
 ```bash
 curl -X POST \
-  -u "hmorganprata@gmail.com:${MC_API_KEY}" \
+  -u "anystring@email.com:${MC_API_KEY}" \
   "https://us1.api.mailchimp.com/3.0/lists/866bf7f993/members/${SUBSCRIBER_HASH}/actions/delete-permanent" | jq '.'
 ```
 
@@ -282,7 +282,7 @@ read -p "Are you sure you want to PERMANENTLY DELETE this member? (yes/no): " CO
 if [ "$CONFIRM" = "yes" ]; then
   echo "Permanently deleting member with email: ${EMAIL}"
   curl -X POST \
-    -u "hmorganprata@gmail.com:${MC_API_KEY}" \
+    -u "anystring@email.com:${MC_API_KEY}" \
     "https://us1.api.mailchimp.com/3.0/lists/866bf7f993/members/${SUBSCRIBER_HASH}/actions/delete-permanent" | jq '.'
   echo "Member permanently deleted."
 else
