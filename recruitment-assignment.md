@@ -48,7 +48,6 @@ flowchart TD
     %% Logs
     H --> R["Log Access Result"]
     O --> R
-    Q --> R
     R --> S["Return Final Response to Client"]
 ```
 
