@@ -41,13 +41,10 @@ flowchart TD
     I --> J{"Found?"}
     J -->|"No"| K["Return:<br/>'No data stored in Mailchimp'"]
     J -->|"Yes"| L["Compute Subscriber Hash"]
-    L --> M{"Erasure Type?"}
     M -->|"Permanent Delete (GDPR)"| N["POST<br/>/DELETE /lists/{list_id}/members/{subscriber_hash}"]
     N --> O["Return Confirmation:<br/>'User Deleted'"]
     
     %% Logs
-    H --> R["Log Access Result"]
-    O --> R
     R --> S["Return Final Response to Client"]
 ```
 
