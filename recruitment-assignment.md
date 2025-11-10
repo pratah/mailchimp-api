@@ -375,11 +375,9 @@ SUBSCRIBER_HASH=$(echo -n "$EMAIL" | tr '[:upper:]' '[:lower:]' | openssl dgst -
 
 ### Best Practices
 
-1. Always check HTTP status codes
-2. Handle authentication errors gracefully
-3. Validate input before making requests
-4. Implement retry logic for transient errors
-5. Log errors for debugging
+1. Always validate .total_items from search results
+2. Log errors for compliance records
+3. Confirm deletion before executing
 
 ---
 
@@ -410,20 +408,28 @@ TOTAL_MEMBERS=$(curl -u "your-email@example.com:${MC_API_KEY}" \
 TOTAL_COUNT=$(echo "$TOTAL_MEMBERS" | jq -r '.total_items')
 echo "Total Members: $TOTAL_COUNT"
 
-# 3. Calculate Subscriber Hash
+# 3. Search for Member
+read -p "Enter the email of the member: " EMAIL
+
+# 4. Calculate Subscriber Hash
 SUBSCRIBER_HASH=$(echo -n "$EMAIL" | tr '[:upper:]' '[:lower:]' | openssl dgst -md5 | sed 's/^.* //')
 echo "Subscriber Hash: ${SUBSCRIBER_HASH}"
 
-# 4. Get Member Information
-echo "Retrieving member information..."
-curl -u "your-email@example.com:${MC_API_KEY}" \
+# 5. Get Member Information
+curl -u "hmorganprata@gmail.com:${MC_API_KEY}" \
   -G "${BASE_URL}/lists/${LIST_ID}/members/${SUBSCRIBER_HASH}" | jq '.'
 
-# 5. Search for Member
-echo "Searching for member..."
-curl -u "your-email@example.com:${MC_API_KEY}" \
-  -G "${BASE_URL}/search-members" \
-  --data-urlencode "query=${EMAIL}" | jq '.'
+# 6. Permanently delete member using subscriber_hash
+read -p "Are you sure you want to PERMANENTLY DELETE this member? (yes/no): " CONFIRM
+if [ "$CONFIRM" = "yes" ]; then
+  echo "Permanently deleting member with email: ${EMAIL}"
+  curl -X POST \
+    -u "hmorganprata@gmail.com:${MC_API_KEY}" \
+    "${BASE_URL}/lists/${LIST_ID}/members/${SUBSCRIBER_HASH}/actions/delete-permanent" | jq '.'
+  echo "Member permanently deleted."
+else
+  echo "Deletion cancelled."
+fi
 ```
 
 ### Search Examples
