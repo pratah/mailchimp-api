@@ -25,6 +25,7 @@ This API provides functionality to interact with Mailchimp's audience management
 ## Workflow Diagram
 
 ```mermaid
+flowchart TD
     A["TrustWorks Receives DSR<br/>(Email, First Name, Last Name)"] --> B{"DSR Type?"}
     
     %% Access Request Path
