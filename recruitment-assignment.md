@@ -26,36 +26,32 @@ This API provides functionality to interact with Mailchimp's audience management
 
 ```mermaid
 flowchart TD
-
-    A[TrustWorks Receives DSR \n (Email, First Name, Last Name)] --> B{DSR Type?}
-
+    A["TrustWorks Receives DSR<br/>(Email, First Name, Last Name)"] --> B{"DSR Type?"}
+    
     %% Access Request Path
-    B -->|Access Request| C[Search Member \n GET /search-members?query=email]
-    C --> D{Found?}
-    D -->|No| E[Return: \n "User not found in Mailchimp"]
-    D -->|Yes| F[Compute Subscriber Hash \n md5(lowercase(email))]
-    F --> G[Retrieve Personal Data \n GET /lists/{list_id}/members/{subscriber_hash}]
-    G --> H[Return GDPR Data \n (PII, tags, IPs, timestamps, status)]
-
+    B -->|"Access Request"| C["Search Member<br/>GET /search-members?query=email"]
+    C --> D{"Found?"}
+    D -->|"No"| E["Return:<br/>'User not found in Mailchimp'"]
+    D -->|"Yes"| F["Compute Subscriber Hash<br/>md5(lowercase(email))"]
+    F --> G["Retrieve Personal Data<br/>GET /lists/{list_id}/members/{subscriber_hash}"]
+    G --> H["Return GDPR Data<br/>(PII, tags, IPs, timestamps, status)"]
+    
     %% Erasure Request Path
-    B -->|Erasure Request| I[Search Member \n GET /search-members?query=email]
-    I --> J{Found?}
-    J -->|No| K[Return: \n "No data stored in Mailchimp"]
-    J -->|Yes| L[Compute Subscriber Hash]
-    L --> M{Erasure Type?}
-
-    M -->|Permanent Delete (GDPR)| N[POST\n /lists/{list_id}/members/{hash}/actions/delete-permanent]
-    N --> O[Return Confirmation: \n "User Deleted"]
-
-    M -->|Anonymize (Optional)| P[PATCH\n /lists/{list_id}/members/{hash}\n Clear PII Fields]
-    P --> Q[Return Confirmation: \n "User Anonymized"]
-
+    B -->|"Erasure Request"| I["Search Member<br/>GET /search-members?query=email"]
+    I --> J{"Found?"}
+    J -->|"No"| K["Return:<br/>'No data stored in Mailchimp'"]
+    J -->|"Yes"| L["Compute Subscriber Hash"]
+    L --> M{"Erasure Type?"}
+    M -->|"Permanent Delete (GDPR)"| N["POST<br/>/lists/{list_id}/members/{hash}/actions/delete-permanent"]
+    N --> O["Return Confirmation:<br/>'User Deleted'"]
+    M -->|"Anonymize (Optional)"| P["PATCH<br/>/lists/{list_id}/members/{hash}<br/>Clear PII Fields"]
+    P --> Q["Return Confirmation:<br/>'User Anonymized'"]
+    
     %% Logs
-    H --> R[Log Access Result]
-    O --> R[Log Deletion Result]
-    Q --> R[Log Anonymization Result]
-
-    R --> S[Return Final Response to Client]
+    H --> R["Log Access Result"]
+    O --> R
+    Q --> R
+    R --> S["Return Final Response to Client"]
 ```
 
 ## Authentication
