@@ -26,7 +26,7 @@ This API provides functionality to interact with Mailchimp's audience management
 
 ```mermaid
 flowchart TD
-    A["TrustWorks Receives DSR<br/>(Email, First Name, Last Name)"] --> B{"DSR Type?"}
+    A("TrustWorks Receives DSR<br/>(Email, First Name, Last Name)") --> B{"DSR Type?"}
     
     %% Access Request Path
     B -->|"Access Request"| C["Search Member<br/>GET /search-members?query=email"]
@@ -42,9 +42,8 @@ flowchart TD
     J -->|"No"| K["Return:<br/>'No data stored in Mailchimp'"]
     J -->|"Yes"| L["Compute Subscriber Hash"]
     L --> M{"Erasure Type?"}
-    M -->|"Permanent Delete (GDPR)"| N["POST<br/>/lists/{list_id}/members/{hash}/actions/delete-permanent"]
+    M -->|"Permanent Delete (GDPR)"| N["POST<br/>/DELETE /lists/{list_id}/members/{subscriber_hash}"]
     N --> O["Return Confirmation:<br/>'User Deleted'"]
-    M -->|"Anonymize (Optional)"| P["PATCH<br/>/lists/{list_id}/members/{hash}<br/>Clear PII Fields"]
     P --> Q["Return Confirmation:<br/>'User Anonymized'"]
     
     %% Logs
