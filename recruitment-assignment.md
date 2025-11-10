@@ -45,6 +45,8 @@ flowchart TD
     N --> O["Return Confirmation:<br/>'User Deleted'"]
     
     %% Logs
+    H --> R["Log Access Result"]
+    O --> R
     R --> S["Return Final Response to Client"]
 ```
 
