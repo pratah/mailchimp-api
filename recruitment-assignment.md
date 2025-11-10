@@ -44,7 +44,6 @@ flowchart TD
     L --> M{"Erasure Type?"}
     M -->|"Permanent Delete (GDPR)"| N["POST<br/>/DELETE /lists/{list_id}/members/{subscriber_hash}"]
     N --> O["Return Confirmation:<br/>'User Deleted'"]
-    P --> Q["Return Confirmation:<br/>'User Anonymized'"]
     
     %% Logs
     H --> R["Log Access Result"]
