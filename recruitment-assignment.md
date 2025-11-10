@@ -5,6 +5,7 @@ This documentation describes the Mailchimp API endpoints and operations used for
 ## Table of Contents
 
 - [Overview](#overview)
+- [Workflow Diagram](#workflow-diagram)
 - [Authentication](#authentication)
 - [Base URL](#base-url)
 - [Endpoints](#endpoints)
@@ -20,6 +21,42 @@ This documentation describes the Mailchimp API endpoints and operations used for
 ## Overview
 
 This API provides functionality to interact with Mailchimp's audience management system, including member search, retrieval, and deletion operations.
+
+## Workflow Diagram
+
+```mermaid
+flowchart TD
+
+    A[TrustWorks Receives DSR \n (Email, First Name, Last Name)] --> B{DSR Type?}
+
+    %% Access Request Path
+    B -->|Access Request| C[Search Member \n GET /search-members?query=email]
+    C --> D{Found?}
+    D -->|No| E[Return: \n "User not found in Mailchimp"]
+    D -->|Yes| F[Compute Subscriber Hash \n md5(lowercase(email))]
+    F --> G[Retrieve Personal Data \n GET /lists/{list_id}/members/{subscriber_hash}]
+    G --> H[Return GDPR Data \n (PII, tags, IPs, timestamps, status)]
+
+    %% Erasure Request Path
+    B -->|Erasure Request| I[Search Member \n GET /search-members?query=email]
+    I --> J{Found?}
+    J -->|No| K[Return: \n "No data stored in Mailchimp"]
+    J -->|Yes| L[Compute Subscriber Hash]
+    L --> M{Erasure Type?}
+
+    M -->|Permanent Delete (GDPR)| N[POST\n /lists/{list_id}/members/{hash}/actions/delete-permanent]
+    N --> O[Return Confirmation: \n "User Deleted"]
+
+    M -->|Anonymize (Optional)| P[PATCH\n /lists/{list_id}/members/{hash}\n Clear PII Fields]
+    P --> Q[Return Confirmation: \n "User Anonymized"]
+
+    %% Logs
+    H --> R[Log Access Result]
+    O --> R[Log Deletion Result]
+    Q --> R[Log Anonymization Result]
+
+    R --> S[Return Final Response to Client]
+```
 
 ## Authentication
 
