@@ -187,9 +187,9 @@ curl -u "anystring@email.com:${MC_API_KEY}" \
 ```
 
 **Notes**:
-- Returns search results array, may include multiple matches
+- Returns may include multiple matches
 - Useful when you don't know the list ID or want to search across multiple lists
-- Returns both exact matches and full search results
+- ⚠️ **WARNING** PII data is visible in the URL
 
 ---
 
