@@ -459,12 +459,12 @@ curl -u "email:api_key" \
 
 ---
 
-## Notes
+## Assumptions & Limitations
 
-- Email addresses are case-insensitive for hashing purposes
-- The API uses RESTful conventions
+- Primary match is email
+- Name-only search not reliable as it could output duplicates and expose PII data
 - Rate limits may apply (check Mailchimp documentation for current limits)
-- Always use HTTPS for API requests
+- No bulk delete endpoint
 - Keep your API key secure and never commit it to version control
 
 ---
