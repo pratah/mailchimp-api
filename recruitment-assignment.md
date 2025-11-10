@@ -26,7 +26,7 @@ This API provides functionality to interact with Mailchimp's audience management
 
 ```mermaid
 flowchart TD
-    A("TrustWorks Receives DSR<br/>(Email, First Name, Last Name)") --> B{"DSR Type?"}
+    A(["TrustWorks Receives DSR<br/>(Email, First Name, Last Name)"]) --> B{"DSR Type?"}
     
     %% Access Request Path
     B -->|"Access Request"| C["Search Member<br/>GET /search-members?query=email"]
